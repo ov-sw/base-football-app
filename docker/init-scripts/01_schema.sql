@@ -79,7 +79,7 @@ CREATE TABLE tournament_admins (
 CREATE TABLE tournament_teams (
     tournament_id BIGINT NOT NULL REFERENCES tournaments(id) ON DELETE CASCADE,
     team_id BIGINT NOT NULL REFERENCES teams(id) ON DELETE CASCADE,
-    position INTEGER,
+    position INTEGER CHECK (position > 0),
     points INTEGER DEFAULT 0 CHECK (points >= 0),
     goals_for INTEGER DEFAULT 0 CHECK (goals_for >= 0),
     goals_against INTEGER DEFAULT 0 CHECK (goals_against >= 0),
@@ -95,7 +95,7 @@ CREATE TABLE tournament_players (
     player_id BIGINT NOT NULL REFERENCES players(id) ON DELETE CASCADE,
     is_active BOOLEAN DEFAULT TRUE,
     jersey_number INTEGER CHECK (jersey_number BETWEEN 1 AND 99),
-    UNIQUE(tournament_id, team_id, player_id)
+    UNIQUE(tournament_id, player_id)
 );
 
 -- 8. Tabla MATCHES (con round y venue explicados)
@@ -132,6 +132,11 @@ CREATE TABLE match_events (
         (type = 'ASSIST' AND primary_player_id IS NOT NULL AND secondary_player_id IS NOT NULL) OR
         (type = 'SUBSTITUTION' AND primary_player_id IS NOT NULL AND secondary_player_id IS NOT NULL)
     )
+);
+
+-- Evitar que un jugador se asista a sí mismo o se cambie por sí mismo
+ALTER TABLE match_events ADD CONSTRAINT check_different_players CHECK (
+    (secondary_player_id IS NULL) OR (primary_player_id != secondary_player_id)
 );
 
 -- 10. Tabla LINEUPS
