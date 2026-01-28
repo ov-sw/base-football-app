@@ -147,7 +147,7 @@ CREATE TABLE tournament_players (
     player_id BIGINT NOT NULL REFERENCES players(id) ON DELETE CASCADE,
     is_active BOOLEAN DEFAULT TRUE,
     jersey_number INTEGER CHECK (jersey_number BETWEEN 1 AND 99),
-    UNIQUE(tournament_id, team_id, player_id)
+    UNIQUE(tournament_id, player_id)
 );
 
 -- 8. Tabla MATCHES (con round y venue explicados)
@@ -184,6 +184,11 @@ CREATE TABLE match_events (
         (type = 'ASSIST' AND primary_player_id IS NOT NULL AND secondary_player_id IS NOT NULL) OR
         (type = 'SUBSTITUTION' AND primary_player_id IS NOT NULL AND secondary_player_id IS NOT NULL)
     )
+);
+
+-- Evitar que un jugador se asista a sí mismo o se cambie por sí mismo
+ALTER TABLE match_events ADD CONSTRAINT check_different_players CHECK (
+    (secondary_player_id IS NULL) OR (primary_player_id != secondary_player_id)
 );
 
 -- 10. Tabla LINEUPS
