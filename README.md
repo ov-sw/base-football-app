@@ -5,9 +5,45 @@
 El nombre representa nuestra filosofía: el fútbol amateur como la base indispensable y el cimiento del deporte profesional.
 
 ## 🚀 Visión del Proyecto
-* **Fútbol Amateur como Cimiento**: Otorgar a los jugadores amateurs el mismo nivel de detalle estadístico que el fútbol profesional .
+* **Fútbol Amateur como Cimiento**: Otorgar a los jugadores amateurs el mismo nivel de detalle estadístico que el fútbol profesional.
 * **Gestión Eficiente**: Proveer herramientas de carga rápida para administradores en campo y delegados de equipo.
 * **Comunidad Conectada**: Permitir que hinchas y jugadores sigan de cerca la evolución de sus torneos y equipos favoritos.
+
+---
+
+## ⚡ Inicio Rápido (Para el Equipo)
+
+Si es la primera vez que bajás el proyecto o no tenés experiencia con Docker, seguí estos pasos para tener el entorno de desarrollo listo en minutos:
+
+### 1. Clonar y Preparar
+Abrí una terminal en tu carpeta de proyectos y ejecutá:
+```bash
+git clone [https://github.com/tu-usuario/base-football-app.git](https://github.com/tu-usuario/base-football-app.git)
+cd base-football-app
+```
+
+### 2. Configurar "Las Llaves" (.env)
+El sistema usa variables de entorno para seguridad que no se suben al repositorio.
+
+1. En la raíz del proyecto, hacé una copia del ejemplo:
+   ```bash
+   cp .env.example .env
+   ```
+
+2. Abrí el archivo `.env` con tu editor (VS Code, por ejemplo).
+
+3. En la variable `JWT_SECRET`, escribí una frase muy larga (mínimo 64 caracteres).
+
+   **IMPORTANTE:** Usá solo letras y números. **No uses guiones (_ o - ),** espacios ni símbolos especiales para evitar errores de decodificación.
+
+### 3. Levantar el servicio (Docker)
+Asegurate de tener Docker Desktop abierto y ejecutá en la terminal:
+
+```bash
+docker compose up --build
+```
+
+> **📌 Nota:** La primera vez tardará unos minutos mientras Docker descarga las imágenes de Java y Postgres y compila el código. Sabrás que terminó cuando veas el logo de Spring Boot en la consola y el mensaje: *Started BaseBackendApplication*.
 
 ## 🛠️ Stack Tecnológico
 
