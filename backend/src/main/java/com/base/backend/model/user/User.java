@@ -3,6 +3,7 @@ package com.base.backend.model.user;
 import java.time.LocalDateTime;
 
 import com.base.backend.model.auth.AuthProvider;
+import com.base.backend.model.auth.UserRole;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorColumn;
@@ -60,4 +61,6 @@ public abstract class User {
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt = LocalDateTime.now();
+
+    public abstract UserRole getRole();
 }
