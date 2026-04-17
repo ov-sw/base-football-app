@@ -3,6 +3,8 @@ package com.base.backend.resource;
 import com.base.backend.dtos.TeamDto;
 import com.base.backend.service.team.TeamService;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,4 +44,12 @@ public class TeamController {
     public ResponseEntity<TeamDto> getTeamById(@PathVariable Long id) {
         return ResponseEntity.ok(teamService.findById(id));
     }
+
+    @GetMapping
+    public ResponseEntity<Page<TeamDto>> getTeams(
+            @RequestParam Long tournamentId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size) {
+        return ResponseEntity.ok(teamService.findByTournament(tournamentId, page, size));
+}
 }

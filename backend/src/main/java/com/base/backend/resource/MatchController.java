@@ -3,10 +3,10 @@ package com.base.backend.resource;
 import com.base.backend.dtos.MatchDto;
 import com.base.backend.service.match.MatchService;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * Controlador para la gestión de partidos.
@@ -20,8 +20,11 @@ public class MatchController {
     private final MatchService matchService;
 
     @GetMapping
-    public ResponseEntity<List<MatchDto>> getAllMatches() {
-        return ResponseEntity.ok(matchService.findAll());
+    public ResponseEntity<Page<MatchDto>> getFixture(
+            @RequestParam Long tournamentId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size) {
+        return ResponseEntity.ok(matchService.findByTournament(tournamentId, page, size));
     }
 
     @PostMapping

@@ -7,11 +7,13 @@ import com.base.backend.repository.MatchRepository;
 import com.base.backend.repository.TeamRepository;
 // import com.base.backend.repository.tournament.TournamentRepository; // Asumiendo que existe
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -20,11 +22,16 @@ public class MatchService {
     private final MatchRepository matchRepository;
     private final TeamRepository teamRepository;
 
-    @Transactional(readOnly = true)
-    public List<MatchDto> findAll() {
-        return matchRepository.findAll().stream()
-                .map(this::convertToDto)
-                .collect(Collectors.toList());
+    /**
+ * Recupera el fixture de un torneo específico.
+ * Esencial para que el delegado vea solo sus partidos próximos.
+ */
+    public Page<MatchDto> findByTournament(Long tournamentId, int page, int size) {
+        int validatedSize = Math.min(size, 50);
+        Pageable pageable = PageRequest.of(page, validatedSize, Sort.by("date").ascending());
+        
+        return matchRepository.findByTournamentId(tournamentId, pageable)
+                .map(this::convertToDto);
     }
 
     @Transactional

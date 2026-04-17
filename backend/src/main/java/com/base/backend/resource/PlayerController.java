@@ -3,10 +3,10 @@ package com.base.backend.resource;
 import com.base.backend.dtos.PlayerDto;
 import com.base.backend.service.player.PlayerService;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * Endpoint para la gestión de jugadores.
@@ -21,8 +21,10 @@ public class PlayerController {
     private final PlayerService playerService;
 
     @GetMapping
-    public ResponseEntity<List<PlayerDto>> getAllPlayers() {
-        return ResponseEntity.ok(playerService.findAll());
+    public ResponseEntity<Page<PlayerDto>> getAllPlayers(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size) {
+        return ResponseEntity.ok(playerService.findAll(page, size));
     }
 
     @PostMapping

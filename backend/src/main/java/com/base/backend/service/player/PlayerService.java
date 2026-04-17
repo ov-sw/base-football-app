@@ -6,11 +6,12 @@ import com.base.backend.model.player.Player;
 import com.base.backend.model.player.RegisteredPlayer;
 import com.base.backend.repository.PlayerRepository;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -19,10 +20,16 @@ public class PlayerService {
     private final PlayerRepository playerRepository;
 
     @Transactional(readOnly = true)
-    public List<PlayerDto> findAll() {
-        return playerRepository.findAll().stream()
-                .map(this::convertToDto)
-                .collect(Collectors.toList());
+    /**
+     * Retorna el listado de todos los jugadores (registrados y no registrados)
+     * de forma paginada.
+     */
+    public Page<PlayerDto> findAll(int page, int size) {
+        int validatedSize = Math.min(size, 50);
+        Pageable pageable = PageRequest.of(page, validatedSize);
+        
+        return playerRepository.findAll(pageable)
+                .map(this::convertToDto);
     }
 
     @Transactional

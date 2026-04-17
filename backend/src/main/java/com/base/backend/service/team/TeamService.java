@@ -4,6 +4,9 @@ import com.base.backend.dtos.TeamDto;
 import com.base.backend.model.team.Team;
 import com.base.backend.repository.TeamRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -60,5 +63,17 @@ public class TeamService {
             team.getFollowerCount(),
             team.getDelegate() != null ? team.getDelegate().getId() : null
         );
+    }
+
+    /**
+     * Obtiene equipos de un torneo con paginación.
+     * Limitamos el tamaño de página a 50 para mantener la eficiencia mobile.
+     */
+    public Page<TeamDto> findByTournament(Long tournamentId, int page, int size) {
+        int validatedSize = Math.min(size, 50); // Hard-limit de 50
+        Pageable pageable = PageRequest.of(page, validatedSize);
+        
+        return teamRepository.findByTournamentId(tournamentId, pageable)
+                .map(this::convertToDto);
     }
 }
