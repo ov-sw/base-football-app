@@ -4,15 +4,24 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import com.base.backend.model.user.Administrator;
-import com.base.backend.model.enums.EventType;
 import com.base.backend.model.enums.Format;
-import com.base.backend.model.enums.MatchStatus;
 import com.base.backend.model.enums.TieBreakRule;
 import com.base.backend.model.enums.TournamentType;
 import com.base.backend.model.match.Match;
+import com.base.backend.model.user.Administrator;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -48,7 +57,7 @@ public class Tournament {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Type type; // LEAGUE, PLAYOFF 
+    private TournamentType type; // LEAGUE, PLAYOFF 
 
     // Criterios de desempate (hasta 3 niveles según el SQL)
     @Enumerated(EnumType.STRING)
