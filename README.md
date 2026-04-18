@@ -81,5 +81,11 @@ docker compose up --build
 2. **Sincronización**: Los eventos cargados deben verse reflejados en el sistema en un tiempo ideal menor a 2 minutos.
 3. **Documentación**: Es obligatorio documentar decisiones técnicas o cambios en la arquitectura en el canal correspondiente de Discord.
 
+## 🚀 Cómo correr el proyecto
+1. Clonar el repo.
+2. Crear un archivo `.env` basado en `.env.example`.
+3. Ejecutar: `docker compose up --build`
+4. Acceder a Swagger en: `http://localhost:8080/swagger-ui/index.html`
+
 ## 📄 Licencia
 Este proyecto se distribuye bajo la **MIT License**.

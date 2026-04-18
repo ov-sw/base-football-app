@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import com.base.backend.model.team.Team;
 import com.base.backend.model.tournament.Tournament;
+import com.base.backend.model.match.Match;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
